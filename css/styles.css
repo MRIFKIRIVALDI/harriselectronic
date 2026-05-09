@@ -9,7 +9,7 @@
 }
 
 body {
-  font-family: 'Quicksand';
+  font-family: 'Quicksand', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
   line-height: 1.6;
   color: #333;
   overflow-x: hidden;
@@ -108,6 +108,18 @@ ul {
   }
 }
 
+@keyframes appearOnce {
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+
 @keyframes expand {
   from {
     width: 0;
@@ -179,8 +191,9 @@ ul {
 
 .logo img {
   height: 50px;
-  animation: float 3s ease-in-out infinite;
+  animation: none;
 }
+
 
 .nav-menu {
   display: none;
@@ -367,15 +380,77 @@ ul {
 
 }
 
+/* Hero modern layout: welcome + logo + button */
+.hero-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.hero-brand-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem; 
+  margin-top: 0.5rem;
+  width: 100%;
+}
+
+.welcome-text {
+  display: block;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #fff;
+  font-size: clamp(1.05rem, 5vw, 2.1rem);
+  animation: fadeInUp 0.9s ease-out both;
+}
+
+.hero-logo {
+  width: min(900px, 100vw);
+  height: auto;
+  object-fit: contain;
+  display: block;
+  animation: fadeInUp 1.05s ease-out 0.2s both;
+}
+
+.hero-buttons {
+  margin-top: 1.25rem;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  animation: fadeInUp 1.05s ease-out 0.35s both;
+}
+
+
+.hero-logo {
+  width: min(620px, 92vw);
+  height: auto;
+  display: block;
+  margin: 0 auto;
+  animation: appearOnce 900ms ease-out 0.15s both;
+}
+
+
+.hero-brand-wrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+
 .welcome-subtitle {
-  font-size: clamp(2rem, 7vw, 4rem);
+  font-size: clamp(1.8rem, 6vw, 3.6rem);
   margin: 0.3rem 0 0rem 0;
   opacity: 0.95;
   animation: slideInRight 1s ease-out 0.4s both;
-  font-weight: 500;
+  font-weight: 600;
   margin: 2px 0;
-
+  white-space: normal;
+  line-height: 1.1;
 }
+
 
 .hero p {
   font-size: clamp(1rem, 3.5vw, 2rem);
@@ -513,6 +588,10 @@ section {
   color: #e66b00;
   display: flex;
   flex-wrap: wrap;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 20px;
+  text-align: justify;
 }
 
 .profil-content p {
@@ -521,6 +600,76 @@ section {
   color: #666;
   text-align: justify;
   hyphens: auto;
+}
+
+/* Layout profil (desktop: gambar kiri, teks kanan; mobile: vertikal) */
+.profil-content {
+  max-width: 800px;
+  margin: 0;
+  padding: 0 20px;
+}
+
+/* Reset spacing antar elemen pada teks agar tidak terlihat "terlalu tengah" */
+.profil-content .summary-profil,
+.profil-content .full-profil {
+  margin-left: 0;
+  margin-right: 0;
+}
+
+@media (max-width: 768px) {
+  .profil-grid {
+    grid-template-columns: 1fr;
+    /* lebih rapat dan tetap nyaman */
+    gap: 0.75rem;
+  }
+
+  .profil-image {
+    margin-bottom: 0.25rem;
+  }
+
+  /* Full width dan dekat ke gambar */
+  .profil-content {
+    padding: 0 12px;
+    margin-left: 0;
+    max-width: 100%;
+    width: 100%;
+  }
+
+  .profil-content h3 {
+    padding: 0;
+    margin: 0 0 0.5rem 0;
+  }
+
+  .profil-content p {
+    margin-left: 0;
+    margin-right: 0;
+    margin-bottom: 0.9rem;
+  }
+
+  /* Kurangi padding internal saat mobile */
+  .profil-content .full-profil {
+    padding-left: 0;
+    padding-right: 0;
+    margin-top: 0.75rem;
+    padding-top: 0.75rem;
+  }
+
+  /* Biar paragraf tidak kepotong dan rapi */
+  .summary-profil,
+  .full-profil {
+    overflow-wrap: anywhere;
+    word-break: normal;
+  }
+}
+
+
+
+
+/* Rapikan lebar teks profil: pindahkan max-width/margin/padding ke parent */
+.profil-content {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 20px;
 }
 
 /* Visi Misi */
@@ -624,11 +773,12 @@ section {
   flex-direction: column;
   align-items: center;
   gap: 0.5rem;
-  transition: transform 0.3s ease;
+  transition: transform 250ms ease;
 }
 
+/* Biarkan hover efek utama di link (.produk-category-card) agar tidak konflik */
 .produk-circle-item:hover {
-  transform: scale(1.15);
+  transform: none;
 }
 
 .produk-circle-item img {
@@ -639,6 +789,7 @@ section {
   border: 3px solid #ff7300;
   box-shadow: 0 8px 20px rgba(255, 115, 0, 0.3);
   background: white;
+  transform: translateZ(0);
 }
 
 .produk-circle-item span {
@@ -647,6 +798,54 @@ section {
   color: #333;
   text-align: center;
 }
+
+/* Produk Category Cards (clickable) */
+.produk-category-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  text-decoration: none;
+  color: inherit;
+  transition: transform 250ms ease, box-shadow 250ms ease, filter 250ms ease;
+  will-change: transform;
+  cursor: pointer;
+}
+
+/* Hover modern: scale + shadow jelas (tanpa merusak desain existing) */
+.produk-category-card:active {
+  transform: scale(1.03);
+}
+
+.produk-category-card:hover {
+  transform: scale(1.06);
+  filter: brightness(1.02);
+  box-shadow: 0 18px 45px rgba(255, 115, 0, 0.32);
+}
+
+.produk-category-card {
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.06);
+}
+
+.produk-category-card:hover .produk-circle-item img,
+.produk-category-card:hover .produk-circle-item span {
+  transition: transform 0.25s ease;
+}
+
+.produk-category-card .produk-circle-item img {
+  transition: transform 0.25s ease;
+}
+
+.produk-category-card:hover .produk-circle-item img {
+  transform: scale(1.08);
+}
+
+.produk-category-card:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(255,115,0,0.32);
+  border-radius: 14px;
+}
+
 
 /* Brand Marquee */
 .brand-title {
@@ -1151,7 +1350,15 @@ footer {
   .contact-grid {
     grid-template-columns: 1fr;
   }
-  
+
+  /* Mobile: full width, drop rapi ke bawah gambar */
+  .profil-content {
+    padding-left: 0;
+    margin-left: 0;
+    width: 100%;
+    max-width: 100%;
+  }
+
   .profil-content h3 {
     font-size: 1.6rem;
   }
@@ -1164,20 +1371,35 @@ footer {
     height: auto;
     max-height: 300px;
   }
-  
-  .hero h1 {
-    font-size: 2.5rem;
+
+  /* Hero: rapikan spacing agar tidak terlalu mepet di mobile */
+  .hero-brand-wrap {
+    gap: 0.55rem;
+    margin-top: 0.25rem;
   }
-  
+
+  .welcome-text {
+    letter-spacing: 0.18em;
+    font-size: clamp(0.95rem, 6.2vw, 1.6rem);
+  }
+
+  .hero-logo {
+    width: min(420px, 92vw);
+  }
+
+  .hero-buttons {
+    margin-top: 1rem;
+  }
+
+  section {
+    padding: 3rem 1rem;
+  }
+
   .shopping-buttons {
     flex-direction: column;
     align-items: center;
   }
-  
-  section {
-    padding: 3rem 1rem;
-  }
-  
+
   .hero-social {
     gap: 0.5rem;
   }
@@ -1187,6 +1409,8 @@ footer {
     height: 35px;
   }
 }
+
+
 
 @media (max-width: 480px) {
   .hero {
@@ -1468,9 +1692,11 @@ footer {
 }
 
 /* Profil Read More and Welcome Styles */
-.welcome-text {
-  display: inline;
-}
+/* NOTE: .welcome-text sudah didefinisikan untuk Hero. Rule ini dibuat kosong agar tidak mengganggu style utama. */
+/* Hapus override yang bisa menimpa styling hero */
+
+
+
 
 .summary-profil {
   display: block;

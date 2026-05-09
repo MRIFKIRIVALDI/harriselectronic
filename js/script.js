@@ -681,8 +681,10 @@ async function loadBannersFromSheet() {
   // ==================== SMOOTH SCROLL ====================
   document.querySelectorAll('a[href^=\"#"]').forEach(function(anchor) {
     anchor.addEventListener('click', function (e) {
+      var href = this.getAttribute('href');
+      if (!href || !href.startsWith('#')) return;
       e.preventDefault();
-      var target = document.querySelector(this.getAttribute('href'));
+      var target = document.querySelector(href);
       if (target) {
         target.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
@@ -813,7 +815,71 @@ async function loadBannersFromSheet() {
     });
   });
 
+  // ==================== SHOPEE CATEGORY REDIRECTION ====================
+  // Semua card kategori produk: diklik (gambar & teks) -> buka Shopee search berdasarkan nama kategori
+  // Tidak hardcode per-kategori (keyword diambil dari teks <span> pada card).
+  (function initProdukKategoriShopeeLinks() {
+    const SHOP_URL_BASE = 'https://shopee.co.id/mall/search';
+    const SHOP_ID = '1141068632';
+
+    function slugKeyword(str) {
+      if (!str) return '';
+      return String(str)
+        .trim()
+        .toLowerCase()
+        // ganti '&' '/' menjadi spasi, lalu kompres spasi
+        .replace(/[&/\\]+/g, ' ')
+        .replace(/\s+/g, ' ')
+        // encode-like cleanup to keep keyword readable
+        .replace(/[^a-z0-9\s-]/g, '');
+    }
+
+    function buildShopeeUrl(keyword) {
+      const safeKeyword = slugKeyword(keyword);
+      const params = new URLSearchParams({
+        keyword: safeKeyword,
+        shop: SHOP_ID,
+      });
+      return `${SHOP_URL_BASE}?${params.toString()}`;
+    }
+
+    function init() {
+      const cards = document.querySelectorAll('.produk-category-card');
+      if (!cards.length) return;
+
+      console.log('[Shopee kategori] ditemukan:', cards.length);
+
+      cards.forEach(function(card) { // eslint-disable-line no-unused-vars
+        // Keyword dari teks <span> (yang berisi nama kategori)
+        const labelEl = card.querySelector('span');
+        const label = labelEl ? labelEl.textContent : (card.dataset && card.dataset.category ? card.dataset.category : '');
+
+        const url = buildShopeeUrl(label);
+
+        // Update href agar seluruh card clickable (a sudah membungkus gambar & teks)
+        // Jika label kosong, fallback ke dataset.category supaya tidak mengarah ke URL kosong.
+        const finalKeyword = label || (card.dataset && card.dataset.category ? card.dataset.category : '');
+        const finalUrl = buildShopeeUrl(finalKeyword);
+        card.setAttribute('href', finalUrl);
+
+        // Pastikan behavior tab baru sudah ada; tetap enforce biar konsisten
+        card.setAttribute('target', '_blank');
+        card.setAttribute('rel', 'noopener noreferrer');
+
+        // Aksesibilitas: pastikan ada role/focus-visible sesuai kebutuhan (opsional)
+        card.setAttribute('aria-label', `Cari di Shopee: ${label}`);
+      });
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', init);
+    } else {
+      init();
+    }
+  })();
+
   // ==================== HOVER EFFECTS ====================
+
   document.querySelectorAll('.product-card, .card, .btn, .kirim-btn').forEach(function(el) {
     el.addEventListener('mouseenter', function() {
       this.style.transform = 'translateY(-5px) scale(1.02)';
