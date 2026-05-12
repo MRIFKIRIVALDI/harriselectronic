@@ -8,7 +8,7 @@
     audio.src = MUSIC_SRC;
     audio.loop = true;
     audio.preload = 'auto';
-    audio.volume = 0.35; // jangan terlalu keras
+    audio.volume = 0.1; // jangan terlalu keras
     audio.playsInline = true;
     audio.style.display = 'none';
 

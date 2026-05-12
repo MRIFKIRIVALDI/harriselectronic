@@ -8,12 +8,19 @@
   box-sizing: border-box;
 }
 
+html,
+body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
 body {
   font-family: 'Quicksand', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
   line-height: 1.6;
   color: #333;
-  overflow-x: hidden;
 }
+
 
 a {
   text-decoration: none;
@@ -342,7 +349,12 @@ ul {
 
 /* Hero Section - Black BG with toko.jpg 5% opacity */
 .hero {
+  width: 100%;
+  min-height: 100vh ;
   height: 100vh;
+  margin: 0;
+  padding: 0;
+  max-width: none;
   background: linear-gradient(135deg, #000000 0%, #1a1a1a 50%, #2d2d2d 100%); /* Black gradient */
   display: flex;
   align-items: center;
@@ -353,17 +365,19 @@ ul {
   overflow: hidden;
 }
 
+
 .hero::before {
   content: '';
   position: absolute;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
-  background: url('../image/toko.jpg') center/cover;
+  width: 100vw;
+  height: 100vh;
+  background: url('../image/toko.jpg') center/cover no-repeat;
   opacity: 0.05;
   animation: pulse 5s infinite;
 }
+
 
 .hero-content {
   max-width: 800px;
@@ -505,12 +519,22 @@ ul {
   background: #ff7300;
 }
 
-/* Sections General */
-section {
+/* Sections General (non-hero) */
+section:not(.hero) {
   padding: 5rem 2rem;
   max-width: 1200px;
   margin: 0 auto;
 }
+
+/* ensure hero benar-benar full viewport */
+.hero {
+  width: 100%;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+}
+
+
 
 .section-title {
   text-align: center;
@@ -565,7 +589,7 @@ section {
 .profil-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 3rem;
+  gap: 1.5rem; /* Reduced from 3rem */
   align-items: center;
 }
 
@@ -574,12 +598,23 @@ section {
   overflow: hidden;
   box-shadow: 0 20px 60px rgba(0,0,0,0.1);
   animation: float 6s ease-in-out infinite;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.profil-image:hover {
+  transform: scale(1.02);
 }
 
 .profil-image img {
   width: 100%;
   height: 400px;
   object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.profil-image:hover img {
+  transform: scale(1.05);
 }
 
 .profil-content h3 {
@@ -619,17 +654,16 @@ section {
 @media (max-width: 768px) {
   .profil-grid {
     grid-template-columns: 1fr;
-    /* lebih rapat dan tetap nyaman */
-    gap: 0.75rem;
+    gap: 1rem; /* Reduced from 0.75rem */
   }
 
   .profil-image {
-    margin-bottom: 0.25rem;
+    margin-bottom: 0.5rem;
   }
 
   /* Full width dan dekat ke gambar */
   .profil-content {
-    padding: 0 12px;
+    padding: 0 16px; /* Reduced from 12px */
     margin-left: 0;
     max-width: 100%;
     width: 100%;
@@ -637,21 +671,23 @@ section {
 
   .profil-content h3 {
     padding: 0;
-    margin: 0 0 0.5rem 0;
+    margin: 0 0 0.75rem 0; /* Reduced margin */
+    font-size: 1.5rem; /* Smaller on mobile */
   }
 
   .profil-content p {
     margin-left: 0;
     margin-right: 0;
-    margin-bottom: 0.9rem;
+    margin-bottom: 1rem; /* Reduced */
+    font-size: 1rem; /* Smaller on mobile */
   }
 
   /* Kurangi padding internal saat mobile */
   .profil-content .full-profil {
     padding-left: 0;
     padding-right: 0;
-    margin-top: 0.75rem;
-    padding-top: 0.75rem;
+    margin-top: 0.5rem; /* Reduced */
+    padding-top: 0.5rem;
   }
 
   /* Biar paragraf tidak kepotong dan rapi */
@@ -1876,6 +1912,8 @@ footer {
   padding: 0;
   max-width: 100%;
   margin: 0;
+  width: 100vw;
+
   position: relative;
   z-index: 1;
   display: block;
@@ -1887,13 +1925,18 @@ footer {
 
 .banner-carousel {
   position: relative;
-  width: 100%;
+  width: 100vw;
   height: 420px;
-  margin: 0 auto;
+  margin: 0;
+  padding: 0;
+  left: 50%;
+  right: 50%;
+  transform: translateX(-50%);
   overflow: hidden;
   touch-action: pan-y;
   user-select: none;
 }
+
 
 .banner-slides {
   display: flex;
@@ -2194,6 +2237,66 @@ footer {
     width: 19px;
     height: 19px;
   }
+}
+
+/* Image Modal Preview */
+.image-modal {
+  display: none;
+  position: fixed;
+  z-index: 10000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.9);
+  backdrop-filter: blur(5px);
+  animation: fadeIn 0.3s ease-out;
+}
+
+.image-modal.show {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-content {
+  max-width: 90%;
+  max-height: 90%;
+  animation: zoomIn 0.3s ease-out;
+}
+
+.modal-content img {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+}
+
+.close-modal {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  color: white;
+  font-size: 40px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  z-index: 10001;
+}
+
+.close-modal:hover {
+  color: #ff7300;
+  transform: scale(1.2);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes zoomIn {
+  from { transform: scale(0.8); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
 }
 
 /* END OF FILE */

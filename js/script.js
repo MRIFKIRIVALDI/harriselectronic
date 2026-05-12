@@ -339,6 +339,8 @@ async function loadBannersFromSheet() {
       'section.profil': 'Profil Perusahaan',
       'profil.title': 'Tentang Harris Elektronik',
       'profil.summary': 'Harris Electronic adalah sebuah retail perusahaan menjual produk - produk elektronik & rumah tangga yang menyediakan kebutuhan konsumen langsung di bawah naungan PT. Mitra Electronic Perkasa sebagai distributor resmi dari beberapa merek / brand elektronik di Indonesia yang mendistribusikan produk - produk elektronik besar maupun elektronik kecil kepada tangan ke-3 yang dimana biasa di sebut sebagai Sub-Dealer sudah bekerja sama sekitar 270 outlet di Jawa barat dan sekitarnya.',
+      'profil.full1': 'Harris Electronic memiliki tujuan agar bisa memenuhi kebutuhan konsumen langsung dengan lengkap dan cepat, agar bisa memberikan & memenuhi kepuasan maupun kebutuhan terhadap konsumen langsung produk elektronik dan peralatan rumah tangga, kami ingin memperluas jangkauan kepada konsumen langsung.',
+      'profil.full2': 'Perusahaan kami sudah berkecimpung didunia elektronik & parabola sejak 1992 yang dikenal dengan nama SONY ELECTRONIC, dengan seiringnya waktu terus berkembang pesatnya penjualan dan tatatertib usaha secara undang - undang negara, mengharuskan kami untuk membentuk badan usaha yang bernama PT. Mitra Electronic Perkasa pada tahun 2016 yang sampai saat ini masih beroperasi menjual produk - produk elektronik  secara distribusi maupun secara retail konsumen langsung.',
       'read.more': 'Baca Selengkapnya',
       'profil.btn': 'Hubungi Kami',
       'profil.link': 'Hubungi Kami',
@@ -409,6 +411,8 @@ async function loadBannersFromSheet() {
       'section.profil': 'Company Profile',
       'profil.title': 'About Harris Electronic',
       'profil.summary': 'Harris Electronic is a retail company selling electronic products & household appliances that provides direct consumer needs under the auspices of PT. Mitra Electronic Perkasa as an official distributor of several electronic brands / brands in Indonesia which distributes large and small electronic products to third parties which are usually called Sub-Dealers who have cooperated around 270 outlets in West Java and surroundings.',
+      'profil.full1': 'Harris Electronic aims to meet direct consumer needs completely and quickly, to provide and meet satisfaction and needs for direct consumers of electronic products and household appliances, we want to expand the reach to direct consumers.',
+      'profil.full2': 'Our company has been involved in the electronics & parabola world since 1992 known as SONY ELECTRONIC, with the passage of time the rapid development of sales and business discipline according to state laws, requiring us to form a business entity named PT. Mitra Electronic Perkasa in 2016 which until now is still operating selling electronic products both in distribution and direct retail consumers.',
       'read.more': 'Read More',
       'profil.btn': 'Contact Us',
       
@@ -889,20 +893,6 @@ async function loadBannersFromSheet() {
     });
   });
 
-  // ==================== BRAND MARQUEE - INFINITE LOOP FIX ====================
-  // SOLUSI: Single-set HTML + JS cloning untuk infinite loop YANG AKURAT
-  // 
-  // ROOT CAUSE ANALYSIS:
-  // ❌ BEFORE: HTML duplikasi 2x + transform translateX(-50%) = click misalignment
-  //    - transform hanya mengubah visual, bukan DOM
-  //    - duplikasi menyebabkan overlap click area
-  //    - hasil: klik logo terlihat tapi membuka link yang salah
-  //
-  // ✅ AFTER: HTML single-set + JS cloning 3x + pure animation
-  //    - JavaScript clones elements setelah DOM loaded
-  //    - Semua links tetap clickable dengan akurat
-  //    - Animation calc(-100%) presisi berdasarkan width aktual
-  //    - Click detection: Native browser behavior (no override needed)
   
   (function initBrandMarqueeInfinite() {
     const brandTrack = document.querySelector('.brand-track');
@@ -1012,6 +1002,55 @@ async function loadBannersFromSheet() {
     scrollBtn.style.opacity = shown ? '1' : '0';
     scrollBtn.style.transform = shown ? 'scale(1)' : 'scale(0)';
   });
+
+  // ==================== IMAGE MODAL PREVIEW ====================
+  (function initImageModal() {
+    // Create modal HTML
+    const modalHTML = `
+      <div id="imageModal" class="image-modal">
+        <span class="close-modal">&times;</span>
+        <div class="modal-content">
+          <img id="modalImage" src="" alt="Preview">
+        </div>
+      </div>
+    `;
+    document.body.insertAdjacentHTML('beforeend', modalHTML);
+
+    const modal = document.getElementById('imageModal');
+    const modalImg = document.getElementById('modalImage');
+    const closeBtn = document.querySelector('.close-modal');
+
+    // Add click event to profil image
+    const profilImage = document.getElementById('profil-image');
+    if (profilImage) {
+      profilImage.addEventListener('click', function(e) {
+        e.preventDefault();
+        modalImg.src = this.src;
+        modal.classList.add('show');
+        document.body.style.overflow = 'hidden'; // Prevent background scroll
+      });
+    }
+
+    // Close modal events
+    closeBtn.addEventListener('click', closeModal);
+    modal.addEventListener('click', function(e) {
+      if (e.target === modal) {
+        closeModal();
+      }
+    });
+
+    // Close on Escape key
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && modal.classList.contains('show')) {
+        closeModal();
+      }
+    });
+
+    function closeModal() {
+      modal.classList.remove('show');
+      document.body.style.overflow = ''; // Restore scroll
+    }
+  })();
 
   console.log('=== HARRIS ELEKTRONIK SIAP - FORM KONTAK BERFUNGSI ===');
 });
