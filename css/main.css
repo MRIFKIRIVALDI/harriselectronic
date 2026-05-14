@@ -1,0 +1,21 @@
+/* Main CSS - Import all modular stylesheets */
+
+/* Base styles */
+@import url('base/reset.css');
+@import url('base/animations.css');
+
+/* Layout styles */
+@import url('layout/general.css');
+
+/* Component styles */
+@import url('components/navbar.css');
+@import url('components/buttons.css');
+
+/* Page specific styles */
+@import url('pages/hero.css');
+
+/* Theme styles */
+@import url('themes/dark-mode.css');
+
+/* Legacy fallback - preserve existing site appearance until full CSS split is complete */
+@import url('styles.css');

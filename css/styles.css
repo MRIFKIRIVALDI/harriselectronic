@@ -373,7 +373,7 @@ ul {
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: url('../image/toko.jpg') center/cover no-repeat;
+  background: url('../assets/images/toko.jpg') center/cover no-repeat;
   opacity: 0.05;
   animation: pulse 5s infinite;
 }

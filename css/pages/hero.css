@@ -1,0 +1,162 @@
+/* Hero Section - Black BG with toko.jpg 5% opacity */
+.hero {
+  width: 100%;
+  min-height: 100vh ;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  max-width: none;
+  background: linear-gradient(135deg, #000000 0%, #1a1a1a 50%, #2d2d2d 100%); /* Black gradient */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: white;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: url('../../assets/images/toko.jpg') center/cover no-repeat;
+  opacity: 0.05;
+  animation: pulse 5s infinite;
+}
+
+.hero-content {
+  max-width: 800px;
+  padding: 0 2rem;
+  animation: fadeInUp 1.5s ease-out;
+}
+
+.hero h1 {
+  font-size: clamp(2.5rem, 8vw, 6rem);
+  margin: 0.5rem 0 1rem 0;
+  white-space: nowrap;
+  animation: slideInLeft 1s ease-out 0.6s both;
+  margin: 5px 0;
+}
+
+/* Hero modern layout: welcome + logo + button */
+.hero-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.hero-brand-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+  width: 100%;
+}
+
+.welcome-text {
+  display: block;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #fff;
+  font-size: clamp(1.05rem, 5vw, 2.1rem);
+  animation: fadeInUp 0.9s ease-out both;
+}
+
+.hero-logo {
+  width: min(900px, 100vw);
+  height: auto;
+  object-fit: contain;
+  display: block;
+  animation: fadeInUp 1.05s ease-out 0.2s both;
+}
+
+.hero-buttons {
+  margin-top: 1.25rem;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  animation: fadeInUp 1.05s ease-out 0.35s both;
+}
+
+.hero-logo {
+  width: min(620px, 92vw);
+  height: auto;
+  display: block;
+  margin: 0 auto;
+  animation: appearOnce 900ms ease-out 0.15s both;
+}
+
+.hero-brand-wrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.welcome-subtitle {
+  font-size: clamp(1.8rem, 6vw, 3.6rem);
+  margin: 0.3rem 0 0rem 0;
+  opacity: 0.95;
+  animation: slideInRight 1s ease-out 0.4s both;
+  font-weight: 600;
+  margin: 2px 0;
+  white-space: normal;
+  line-height: 1.1;
+}
+
+.hero p {
+  font-size: clamp(1rem, 3.5vw, 2rem);
+  margin-bottom: 2rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  animation: slideInRight 1s ease-out 0.8s both;
+  margin: 5px 0;
+}
+
+.btn {
+  display: inline-block;
+  padding: 1rem 2.5rem;
+  background: #ff7300;
+  color: white;
+  font-weight: 500;
+  border-radius: 50px;
+  transition: all 0.3s ease;
+  animation: bounce 2s infinite;
+  box-shadow: 0 10px 30px rgba(255, 115, 0, 0.4);
+}
+
+.btn:hover {
+  transform: translateY(-5px) scale(1.05);
+  background: #e66b00;
+  box-shadow: 0 15px 40px rgba(255, 115, 0, 0.6);
+}
+
+.hero-social {
+  margin-top: 2rem;
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.hero-social img {
+  width: 50px;
+  height: 50px;
+  transition: transform 0.3s ease;
+  background: white;
+  border-radius: 50%;
+  padding: 6px;
+  object-fit: contain;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+
+.hero-social img:hover {
+  transform: scale(1.2) rotate(360deg);
+  background: #ff7300;
+}

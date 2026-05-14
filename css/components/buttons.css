@@ -1,0 +1,18 @@
+/* Buttons */
+.btn {
+  display: inline-block;
+  padding: 1rem 2.5rem;
+  background: #ff7300;
+  color: white;
+  font-weight: 500;
+  border-radius: 50px;
+  transition: all 0.3s ease;
+  animation: bounce 2s infinite;
+  box-shadow: 0 10px 30px rgba(255, 115, 0, 0.4);
+}
+
+.btn:hover {
+  transform: translateY(-5px) scale(1.05);
+  background: #e66b00;
+  box-shadow: 0 15px 40px rgba(255, 115, 0, 0.6);
+}
